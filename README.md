@@ -4,9 +4,9 @@ This webpage accessible [here](https://rahcodes.github.io/rgbname/) provides a t
 
 There's two datasets included in this repository. One is `colours.json` containing __1298__ different colour names, while the other dataset `colours1.json` contains __30241__ different names. The webpage primarily utilizes `colours1.json`.
 
-The dataset in `colours1.json` is sourced from [meodai's color-name](https://github.com/meodai/color-names/). The dataset was obtained as the `colornames.csv` file found on their page, which was then reformatted into `colours1.json` file using this Python [notebook](https://colab.research.google.com/drive/1RywAYP84f83SpQTJpsCEPNuoIfqJexKu?usp=sharing).
+The dataset for `colours1.json` is sourced from [meodai's color-name](https://github.com/meodai/color-names/). It was obtained as the `colornames.csv` file found on their page, which was then reformatted into `colours1.json` file using this Python [notebook](https://colab.research.google.com/drive/1RywAYP84f83SpQTJpsCEPNuoIfqJexKu?usp=sharing).
 
-The dataset for `colours.json` is collected from [here](https://www.kaggle.com/datasets/avi1023/color-names).
+The dataset for `colours.json` is sourced from [here](https://www.kaggle.com/datasets/avi1023/color-names).
 ## JSON Dataset Structure
 The structure of `colours1.json` is as follows:
 ```javascript
