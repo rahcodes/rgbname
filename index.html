@@ -138,7 +138,7 @@
         // colours1.json has 30241 colour names
         // colours.json has 1298 colour names
         let colour_data;
-        fetch("./colours1.json").then(async response => {
+        fetch("/colours1.json").then(async response => {
             colour_data = await response.json();
         });
 
@@ -176,7 +176,7 @@
             // the following commented section is for colour.json file
             // this seperate code exists because a difference in data format between the two datasets
 
-            // let smallest_closeness = 0;
+            // let best_closeness = 0;
             // let closest_colour = "";
 
             // for (colour of colour_data.colours) {
@@ -187,8 +187,8 @@
             //     const distance = Math.sqrt(delta_r_squared + delta_g_squared + delta_b_squared);
             //     const closeness = 1 / (1 + distance);
 
-            //     if (closeness > smallest_closeness) {
-            //         smallest_closeness = closeness;
+            //     if (closeness > best_closeness) {
+            //         best_closeness = closeness;
             //         closest_colour = colour.name;
             //     }
             // }
@@ -203,7 +203,7 @@
             // the algorithm is pretty straight forward
             // we keep a record of the closeness of the closest RGB value and the name
             // if we find a closer one during the loop we update it
-            let smallest_closeness = 0;
+            let best_closeness = 0;
             let closest_colour = "";
 
             for (colour of colour_data) {
@@ -222,8 +222,8 @@
                 // the +1 is the denominator exists to prevent division by zero error
                 const closeness = 1 / (1 + distance);
 
-                if (closeness > smallest_closeness) {
-                    smallest_closeness = closeness;
+                if (closeness > best_closeness) {
+                    best_closeness = closeness;
                     closest_colour = colour.name;
                 }
             }
