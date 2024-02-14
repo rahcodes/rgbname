@@ -1,5 +1,4 @@
 # RGB to Colour Name using Nearest Neighbour
----
 ## About
 This webpage accessible [here](https://rahcodes.github.io/rgbname/) provides a tool that can identify names of upto __30241__ different colours from a given RGB value. It uses the Nearest Neighbour (NN) approach with Euclidean distance to determine the closest match to RGB values in the dataset.
 
@@ -10,7 +9,7 @@ The dataset in `colours1.json` is sourced from [meodai's color-name](https://git
 The dataset for `colours.json` is collected from [here](https://www.kaggle.com/datasets/avi1023/color-names).
 ## JSON Dataset Structure
 The structure of `colours1.json` is as follows:
-```json
+```javascript
 [
     {
         name: "Colour Name",
@@ -23,7 +22,7 @@ The structure of `colours1.json` is as follows:
 ]
 ```
 And the structure of `colours.json` is as follows:
-```json
+```javascript
 {
     colours: [
         {
@@ -41,3 +40,5 @@ And the structure of `colours.json` is as follows:
     ]
 }
 ```
+## Demo
+![rgb_name_demo](https://github.com/rahcodes/rgbname/assets/39433922/4b066279-2fdb-453d-92c0-9f37657cbaf7)
