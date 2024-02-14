@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- HTML Meta Tags -->
+    <title>RGB to Name Converter</title>
+    <meta name="description" content="Convert your RGB colour values to human readable names.">
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:url" content="https://rahcodes.github.io/rgbname/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="RGB to Name Converter">
+    <meta property="og:description" content="Convert your RGB colour values to human readable names.">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta property="twitter:domain" content="rahcodes.github.io">
+    <meta property="twitter:url" content="https://rahcodes.github.io/rgbname/">
+    <meta name="twitter:title" content="RGB to Name Converter">
+    <meta name="twitter:description" content="Convert your RGB colour values to human readable names.">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #0b1229;
+        }
+
+        .main {
+            color: #ddd;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        .rgb_container {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        input[type="number"] {
+            border: solid 2px #ddd;
+            outline: none;
+            width: 30%;
+            height: 50px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        input[type="number"]:focus {
+            border: none;
+            outline: solid 2px #2ec7c0;
+        }
+
+        .submit_container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            border: none;
+            outline: none;
+            background-color: #00abc5;
+            color: #fff;
+            width: 100%;
+            height: 50px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .colour_display {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 10px;
+        }
+
+        #colour_name_p {
+            font-size: 20px;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .main {
+                width: 90%;
+            }
+
+            .colour_display {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <h2>RGB TO COLOUR NAME</h2>
+        <p>enter your RGB values below</p>
+        <form action="">
+            <div class="rgb_container">
+                <input type="number" name="red_input" id="red_input" placeholder="Red" min="0" max="255" required>
+                <input type="number" name="green_input" id="green_input" placeholder="Green" min="0" max="255" required>
+                <input type="number" name="blue_input" id="blue_input" placeholder="Blue" min="0" max="255" required>
+            </div>
+            <div class="submit_container">
+                <input type="submit" value="Submit" id="submit_btn">
+            </div>
+        </form>
+        <div class="colour_display" id="colour_display"></div>
+        <p id="colour_name_p"></p>
+    </div>
+
+
+    <script>
+        // loading colour data from the json file
+        // colours1.json has 30241 colour names
+        // colours.json has 1298 colour names
+        let colour_data;
+        fetch("/colours1.json").then(async response => {
+            colour_data = await response.json();
+        });
+
+        // loading the DOM elements
+        const red_input = document.getElementById("red_input");
+        const green_input = document.getElementById("green_input");
+        const blue_input = document.getElementById("blue_input");
+        const submit_btn = document.getElementById("submit_btn");
+        const colour_display = document.getElementById("colour_display");
+        const colour_name_p = document.getElementById("colour_name_p");
+
+        // on submit event
+        submit_btn.onclick = (event) => {
+            // prevent page reload
+            event.preventDefault();
+
+            // get the input RGB values
+            // if missing inputs set it to null
+            const red = red_input.value || null;
+            const green = green_input.value || null;
+            const blue = blue_input.value || null;
+
+            // checking for null/empty inputs
+            if (red === null || green === null || blue === null) {
+                alert("Please enter RGB values!");
+                return
+            }
+
+            // checking for invalid RGB values
+            if (red > 255 || red < 0 || green > 255 || green < 0 || blue > 255 || blue < 0) {
+                alert("Please enter valid RGB values (0-255)");
+                return
+            }
+
+            // the following commented section is for colour.json file
+            // this seperate code exists because a difference in data format between the two datasets
+
+            // let smallest_closeness = 0;
+            // let closest_colour = "";
+
+            // for (colour of colour_data.colours) {
+            //     const delta_r_squared = (red - colour.red) ** 2;
+            //     const delta_g_squared = (green - colour.green) ** 2;
+            //     const delta_b_squared = (blue - colour.blue) ** 2;
+
+            //     const distance = Math.sqrt(delta_r_squared + delta_g_squared + delta_b_squared);
+            //     const closeness = 1 / (1 + distance);
+
+            //     if (closeness > smallest_closeness) {
+            //         smallest_closeness = closeness;
+            //         closest_colour = colour.name;
+            //     }
+            // }
+
+            // colour_display.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+            // colour_display.style.border = "solid 1px #ccc";
+
+            // colour_name_p.innerText = closest_colour;
+            
+
+
+            // the algorithm is pretty straight forward
+            // we keep a record of the closeness of the closest RGB value and the name
+            // if we find a closer one during the loop we update it
+            let smallest_closeness = 0;
+            let closest_colour = "";
+
+            for (colour of colour_data) {
+                const rgb = colour.rgb;
+
+                // the distance calculated is the Euclidean distance
+                // it is calculated as the distance between the input and dataset RGB values
+                // the distance itself is the distance between the two (R, G, B) points in a 3D RGB vector space
+                const delta_r_squared = (red - rgb[0]) ** 2;
+                const delta_g_squared = (green - rgb[1]) ** 2;
+                const delta_b_squared = (blue - rgb[2]) ** 2;
+
+                const distance = Math.sqrt(delta_r_squared + delta_g_squared + delta_b_squared);
+
+                // closeness is measured as a reciprocal of the distance
+                // the +1 is the denominator exists to prevent division by zero error
+                const closeness = 1 / (1 + distance);
+
+                if (closeness > smallest_closeness) {
+                    smallest_closeness = closeness;
+                    closest_colour = colour.name;
+                }
+            }
+
+            // updating the DOM with discovered colour data
+            colour_display.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+            colour_display.style.border = "solid 1px #ccc";
+
+            colour_name_p.innerText = closest_colour;
+        }
+    </script>
+</body>
+
+</html>
